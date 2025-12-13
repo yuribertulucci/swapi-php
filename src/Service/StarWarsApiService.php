@@ -1,0 +1,245 @@
+<?php
+
+namespace App\Service;
+
+use App\Client\HttpClient;
+use App\DTO\ApiCollectionResponseDTO;
+use App\DTO\BaseDTO;
+use App\DTO\FilmDTO;
+use App\DTO\PersonDTO;
+use App\DTO\PlanetDTO;
+use App\DTO\SpecieDTO;
+use App\DTO\StarshipDTO;
+use Exception;
+
+class StarWarsApiService
+{
+    private HttpClient $client;
+
+    function __construct()
+    {
+        $this->client = new HttpClient('https://swapi.dev/api/', 'json');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getPeople(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('people/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getPerson(int $id): BaseDTO
+    {
+        $data = $this->client->get("people/{$id}/");
+        return new PersonDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchPeople(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('people/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getFilms(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('films/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getFilm(int $id): BaseDTO
+    {
+        $data = $this->client->get("films/{$id}/");
+        return new FilmDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchFilms(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('films/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getStarships(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('starships/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getStarship(int $id): BaseDTO
+    {
+        $data = $this->client->get("starships/{$id}/");
+        return new StarshipDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchStarships(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('starships/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getPlanets(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('planets/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getPlanet(int $id): BaseDTO
+    {
+        $data = $this->client->get("planets/{$id}/");
+        return new PlanetDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchPlanets(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('planets/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getSpecies(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('species/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getSpecie(int $id): BaseDTO
+    {
+        $data = $this->client->get("species/{$id}/");
+        return new SpecieDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchSpecies(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('species/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getVehicles(?int $page = null): BaseDTO
+    {
+        $params = [];
+        if ($page) {
+            $params = ['page' => $page];
+        }
+
+        $data = $this->client->get('vehicles/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getVehicle(int $id): BaseDTO
+    {
+        $data = $this->client->get("vehicles/{$id}/");
+        return new SpecieDTO($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function searchVehicles(string $query, ?int $page = null): BaseDTO
+    {
+        $params = ['search' => $query];
+        if ($page) {
+            $params['page'] = $page;
+        }
+
+        $data = $this->client->get('vehicles/', $params);
+        return new ApiCollectionResponseDTO($data);
+    }
+}

@@ -1,0 +1,39 @@
+services:
+  app:
+    image: shinsenter/phpfpm-nginx:php7.4-alpine
+    env_file:
+      - .env
+    container_name: starwars_app
+    environment:
+      - APP_USER=$USER
+      - APP_GROUP=$USER
+      - DOCUMENT_ROOT=public
+    ports:
+      - "${APP_PORT:-80}:80"
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./docker/conf/nginx-site.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - db
+    networks:
+      - starwars_network
+  db:
+    image: mysql:8.0.44-debian
+    env_file:
+      - .env
+    container_name: starwars_db
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-starwarsdb}
+      MYSQL_USER: ${DB_USER:-staruser}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-starpassword}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    volumes:
+      - ./docker/db_data:/var/lib/mysql
+    networks:
+      - starwars_network
+
+networks:
+  starwars_network:
+    driver: bridge
