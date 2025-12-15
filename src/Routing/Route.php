@@ -18,16 +18,19 @@ class Route
         $this->action = $action;
     }
 
-    public static function group(array $configs, \Closure $routes): void
+    public static function group($configs, \Closure $routes): void
     {
+        if (is_string($configs) && ! empty($configs)) {
+            $configs = ['prefix' => $configs];
+        }
+
         if (isset($configs['prefix'])) {
             Router::routePrefix($configs['prefix']);
         }
 
         $routes();
 
-        Router::routePrefix('');
-
+        Router::clearRoutePrefix();
     }
 
     public static function get(string $pattern, $action): Route

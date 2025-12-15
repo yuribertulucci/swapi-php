@@ -13,6 +13,7 @@ class Router
     private array $routes;
     private string $route = '';
     private string $routePrefix = '';
+    private string $globalPrefix = '';
 
     public static function routePrefix($routePrefix): Router
     {
@@ -22,6 +23,24 @@ class Router
         return $instance;
     }
 
+    public static function clearRoutePrefix(): Router
+    {
+        $instance = self::instance();
+        $instance->routePrefix = '';
+
+        return $instance;
+    }
+
+    public static function withGlobalPrefix(string $prefix, \Closure $param)
+    {
+        $router = self::instance();
+        $router->globalPrefix = '/' . trim($prefix, '/');
+
+        $param();
+
+        $router->globalPrefix = '';
+    }
+
     public function loadRoutes(array $routes): void
     {
         $this->routes = array_merge($this->routes, $routes);
@@ -29,7 +48,18 @@ class Router
 
     public function addRoute(string $method, string $pattern, $action): Route
     {
-        $pattern = $this->routePrefix . '/' . trim($pattern, '/') . '/';
+        $currentPrefix = trim($this->routePrefix);
+        if ($this->globalPrefix && ! in_array($currentPrefix, ['', '/'])) {
+            $currentPrefix = rtrim($this->globalPrefix, '/') . '/' . trim($this->routePrefix, '/');
+        } elseif ($this->globalPrefix) {
+            $currentPrefix = rtrim($this->globalPrefix, '/');
+        }
+
+        if ($pattern === '/') {
+            $pattern = $currentPrefix . '/';
+        } else {
+            $pattern = $currentPrefix . '/' . trim($pattern, '/') . '/';
+        }
 
         return $this->routes[$method][$pattern] = new Route($method, $pattern, $action);
     }
@@ -94,5 +124,10 @@ class Router
         }
 
         return null;
+    }
+
+    public function getRoutePrefix(): string
+    {
+        return $this->routePrefix;
     }
 }

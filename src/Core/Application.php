@@ -73,7 +73,7 @@ class Application
         foreach ($this->routes as $routeType => $routesFilePath) {
             if (file_exists($routesFilePath)) {
                 if ($routeType === 'api' && isset($this->config['routes']['prefix']['api'])) {
-                    Route::group(['prefix' => $this->config['routes']['prefix']['api'] ?? 'api'], function() use ($routesFilePath) {
+                    Router::withGlobalPrefix($this->config['routes']['prefix']['api'], function () use ($routesFilePath) {
                         require $routesFilePath;
                     });
                     continue;
