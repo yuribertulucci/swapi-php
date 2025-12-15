@@ -8,10 +8,10 @@ trait SingletonInstance
 
     private function __construct() {}
 
-    public static function instance(): self
+    public static function instance(...$params): self
     {
         if (! self::$instance) {
-            self::$instance = new self();
+            self::$instance = new self(...$params);
         }
 
         return self::$instance;
