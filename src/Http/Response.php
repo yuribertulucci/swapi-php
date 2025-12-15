@@ -7,23 +7,19 @@ class Response
     public string $route;
     public string $lastModified;
     public string $content;
+    public int $statusCode = 200;
 
     function __construct($text = null)
     {
-        if (empty($text)) {
-            return;
+        if (! empty($text)) {
+            $this->content = $text;
         }
-
-        $this->send($text);
     }
 
-    public function send(string $content, int $statusCode = 200): self
+    public function send(?string $content = null, ?int $statusCode = null): self
     {
-        http_response_code($statusCode);
-        $this->lastModified = gmdate('D, d M Y H:i:s T');
-        $this->route = request()->getUri();
-        $this->content = $content;
-        echo $content;
+        http_response_code($statusCode ?? $this->statusCode);
+        echo $content ?? $this->content;
 
         return $this;
     }
@@ -35,12 +31,16 @@ class Response
 
         if (is_array($processedData) || is_object($processedData)) {
             $finalData = json_encode($processedData);
+            $this->statusCode = $statusCode ?? 200;
         } else {
             $finalData = json_encode(['error' => 'Invalid data format for JSON response', 'data' => $processedData]);
-            $statusCode = 500;
+            $this->statusCode = 500;
         }
 
-        return $this->send($finalData, $statusCode);
+        $this->lastModified = gmdate('D, d M Y H:i:s T');
+        $this->content = $finalData;
+
+        return $this;
     }
 
     public function notFound(string $message = 'Not Found'): self
