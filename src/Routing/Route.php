@@ -6,6 +6,7 @@ class Route
 {
     private string $method;
     private string $pattern;
+    private string $patternRegex;
     private $action;
     private ?string $name = null;
     private ?array $parameters = null;
@@ -15,6 +16,18 @@ class Route
         $this->method = $method;
         $this->pattern = $pattern;
         $this->action = $action;
+    }
+
+    public static function group(array $configs, \Closure $routes): void
+    {
+        if (isset($configs['prefix'])) {
+            Router::routePrefix($configs['prefix']);
+        }
+
+        $routes();
+
+        Router::routePrefix('');
+
     }
 
     public static function get(string $pattern, $action): Route
@@ -33,14 +46,14 @@ class Route
         return $this;
     }
 
-    private function convertPatternToRegex(): string
+    public function convertPatternToRegex(): string
     {
         $regex = preg_replace('/{[^\/]+}/', '([^/]+)', $this->pattern);
         $regex = str_replace('/', '\/', $regex);
         return '/^' . $regex . '?$/';
     }
 
-    private function extractParams(): void
+    public function extractParams(): void
     {
         preg_match_all('/{([^\/]+)}/', $this->pattern, $paramNames);
 

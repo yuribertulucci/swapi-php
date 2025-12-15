@@ -12,6 +12,15 @@ class Router
 
     private array $routes;
     private string $route = '';
+    private string $routePrefix = '';
+
+    public static function routePrefix($routePrefix): Router
+    {
+        $instance = self::instance();
+        $instance->routePrefix .= '/' . trim($routePrefix, '/');
+
+        return $instance;
+    }
 
     public function loadRoutes(array $routes): void
     {
@@ -20,6 +29,8 @@ class Router
 
     public function addRoute(string $method, string $pattern, $action): Route
     {
+        $pattern = $this->routePrefix . '/' . trim($pattern, '/') . '/';
+
         return $this->routes[$method][$pattern] = new Route($method, $pattern, $action);
     }
 
@@ -33,6 +44,7 @@ class Router
         $uri = $request->getUri();
         $method = $request->getMethod();
 
+        /* @var array<string, Route> $searchRoutes */
         $searchRoutes = $this->routes[$method] ?? [];
 
         if (isset($searchRoutes[$uri])) {
@@ -41,7 +53,7 @@ class Router
         }
 
         foreach ($searchRoutes as $pattern => $route) {
-            $regex = $route->convertToRegex($pattern);
+            $regex = $route->convertPatternToRegex();
 
             if (preg_match($regex, $uri)) {
                 $this->route = $pattern;
@@ -58,6 +70,7 @@ class Router
         $routeDetails = $route->getDetails();
         $routeAction = $routeDetails['action'];
         $routeParams = $routeDetails['parameters'] ?? [];
+        $routeActionParams = array_values($routeParams);
 
         if (is_string($routeAction)) {
             $controllerAction = explode('@', $routeAction);
@@ -65,7 +78,7 @@ class Router
             $actionName = $controllerAction[1];
 
             $controller = new $controllerName();
-            return $controller->$actionName(...array_values($routeParams));
+            return $controller->$actionName(...$routeActionParams);
         }
 
         if (is_array($routeAction)) {
@@ -73,11 +86,11 @@ class Router
             $actionName = $routeAction[1];
 
             $controller = new $controllerName();
-            return $controller->$actionName(...array_values($routeParams));
+            return $controller->$actionName(...$routeActionParams);
         }
 
         if ($routeAction instanceof \Closure) {
-            return $routeAction(...array_values($routeParams));
+            return $routeAction(...$routeActionParams);
         }
 
         return null;
