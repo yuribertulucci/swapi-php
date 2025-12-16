@@ -18,7 +18,7 @@ class View
         $this->loadViewContent($view);
         $this->replacePlaceholders();
 
-        if (file_exists($this->viewsPath . $view . '.php')) {
+        if (file_exists($this->viewPath)) {
             extract($data, EXTR_SKIP);
             ob_start();
             eval('?>' . $this->content);
@@ -30,10 +30,10 @@ class View
 
     public function loadViewContent(string $view): void
     {
-        $this->viewPath = $viewPath = $this->viewsPath . str_replace('.', '/', $view) . '.php';
+        $this->viewPath = $this->viewsPath . str_replace('.', '/', $view) . '.php';
 
-        if (file_exists($viewPath)) {
-            $this->content = file_get_contents($viewPath);
+        if (file_exists($this->viewPath)) {
+            $this->content = file_get_contents($this->viewPath);
         }
     }
 
