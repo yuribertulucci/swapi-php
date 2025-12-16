@@ -58,3 +58,20 @@ if (! function_exists('view')) {
         return response()->view($view, $data);
     }
 }
+
+if (! function_exists('encode')) {
+    /**
+     * Encode data to html.
+     */
+    function encode($data): string
+    {
+        // Convert objects and arrays to string representation for debugging purposes
+        if (is_object($data)) {
+            $data = get_class($data) . ' ' . ltrim(var_export(obj2array($data), true), 'array');
+        } elseif (is_array($data)) {
+            $data = var_export($data, true);
+        }
+
+        return htmlspecialchars($data ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+}
