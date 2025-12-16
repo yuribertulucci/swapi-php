@@ -48,3 +48,13 @@ if (!function_exists('app_path')) {
         return \App\Core\Application::instance()->getBasePath() . ($path ? DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR) : $path);
     }
 }
+
+if (! function_exists('view')) {
+    /**
+     * Create a new view instance.
+     */
+    function view(string $view = null, array $data = []): \App\Http\Response
+    {
+        return response()->view($view, $data);
+    }
+}

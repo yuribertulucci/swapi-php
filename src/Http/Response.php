@@ -43,6 +43,25 @@ class Response
         return $this;
     }
 
+    public function view(string $view = null, array $data = []): self
+    {
+        if ($view) {
+            $viewRenderer = new View();
+
+            try {
+                $this->content = $viewRenderer->render($view, $data);
+            } catch (\Exception $e) {
+                $this->content = "View file not found: {$viewRenderer->viewPath}";
+                $this->statusCode = 500;
+            }
+        } else {
+            $this->content = "No view specified.";
+            $this->statusCode = 500;
+        }
+
+        return $this;
+    }
+
     public function notFound(string $message = 'Not Found'): self
     {
         $this->json(['error' => $message], 404);

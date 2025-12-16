@@ -87,7 +87,7 @@ class Router
 
             if (preg_match($regex, $uri)) {
                 $this->route = $pattern;
-                $route->extractParams($pattern, $uri);
+                $route->extractParams();
                 return $this->processRoute($route);
             }
         }
