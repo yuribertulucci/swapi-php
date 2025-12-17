@@ -11,7 +11,9 @@
   "require": {
     "php": ">=7.4",
     "ext-curl": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "components/jquery": "^3.7",
+    "twbs/bootstrap": "^5.3"
   },
   "config": {
     "allow-plugins": {
@@ -19,5 +21,12 @@
   },
   "require-dev": {
     "symfony/var-dumper": "^5.4"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "mkdir -p public/assets/bootstrap public/assets/jquery",
+      "cp -r vendor/twbs/bootstrap/dist/* public/assets/bootstrap/",
+      "cp vendor/components/jquery/jquery.min.js public/assets/jquery/"
+    ]
   }
 }
