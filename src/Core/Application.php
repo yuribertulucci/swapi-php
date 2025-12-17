@@ -43,6 +43,32 @@ class Application
     {
         $this->bootstrap();
 
+        // Serve static files directly if they exist
+        $requestUri = parse_url(rtrim(request()->getUri(), '/'), PHP_URL_PATH);
+        if (preg_match('/\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot)$/', $requestUri)) {
+            $filePath = app_path('public' . $requestUri);
+
+            if (file_exists($filePath)) {
+                $mimeTypes = [
+                    'css' => 'text/css',
+                    'js' => 'application/javascript',
+                    'jpg' => 'image/jpeg',
+                    'jpeg' => 'image/jpeg',
+                    'png' => 'image/png',
+                    'gif' => 'image/gif',
+                    'ico' => 'image/x-icon',
+                    'svg' => 'image/svg+xml',
+                ];
+
+                $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+                $mimeType = $mimeTypes[$extension] ?? 'application/octet-stream';
+
+                header('Content-Type: ' . $mimeType);
+                readfile($filePath);
+                exit;
+            }
+        }
+
         $response = Router::instance()->handleRequest(request());
 
         ob_start();
