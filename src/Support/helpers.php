@@ -75,3 +75,13 @@ if (! function_exists('encode')) {
         return htmlspecialchars($data ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 }
+
+if (! function_exists('route')) {
+    /**
+     * Generate a URL for a named route.
+     */
+    function route(string $name, array $params = []): string
+    {
+        return \App\Routing\Router::instance()->generateUrl($name, $params) ?? '';
+    }
+}

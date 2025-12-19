@@ -80,4 +80,9 @@ class Route
             'parameters' => $this->parameters,
         ];
     }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 }
