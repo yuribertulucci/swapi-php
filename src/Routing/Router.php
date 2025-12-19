@@ -10,6 +10,7 @@ class Router
 {
     use SingletonInstance;
 
+    /* @var $routes array<string, array<string, Route>> */
     private array $routes;
     private string $route = '';
     private string $routePrefix = '';
@@ -129,5 +130,36 @@ class Router
     public function getRoutePrefix(): string
     {
         return $this->routePrefix;
+    }
+
+    public function getRouteByName(string $name): ?Route
+    {
+        foreach ($this->routes as $methodRoutes) {
+            foreach ($methodRoutes as $route) {
+                if ($route->getName() === $name) {
+                    return $route;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public function generateUrl(string $name, array $params = []): ?string
+    {
+        $route = $this->getRouteByName($name);
+        if (!$route) {
+            return null;
+        }
+
+        $pattern = $route->getDetails()['pattern'];
+        foreach ($params as $key => $value) {
+            $pattern = preg_replace('/{' . $key . '}/', $value, $pattern);
+        }
+
+        $pattern = preg_replace('/{[^\/]+}/', '', $pattern);
+        $pattern = rtrim($pattern, '/');
+
+        return $pattern === '' ? '/' : $pattern;
     }
 }
