@@ -10,6 +10,7 @@ use App\DTO\PersonDTO;
 use App\DTO\PlanetDTO;
 use App\DTO\SpecieDTO;
 use App\DTO\StarshipDTO;
+use App\DTO\VehicleDTO;
 use Exception;
 
 class StarWarsApiService
@@ -32,7 +33,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('people/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, PersonDTO::class);
     }
 
     /**
@@ -55,7 +56,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('people/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, PersonDTO::class);
     }
 
     /**
@@ -69,7 +70,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('films/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, FilmDTO::class);
     }
 
     /**
@@ -92,7 +93,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('films/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, FilmDTO::class);
     }
 
     /**
@@ -106,7 +107,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('starships/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, StarshipDTO::class);
     }
 
     /**
@@ -129,7 +130,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('starships/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, StarshipDTO::class);
     }
 
     /**
@@ -143,7 +144,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('planets/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, PlanetDTO::class);
     }
 
     /**
@@ -166,7 +167,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('planets/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, PlanetDTO::class);
     }
 
     /**
@@ -180,7 +181,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('species/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, SpecieDTO::class);
     }
 
     /**
@@ -203,7 +204,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('species/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, SpecieDTO::class);
     }
 
     /**
@@ -217,7 +218,7 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('vehicles/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, VehicleDTO::class);
     }
 
     /**
@@ -240,6 +241,6 @@ class StarWarsApiService
         }
 
         $data = $this->client->get('vehicles/', $params);
-        return new ApiCollectionResponseDTO($data);
+        return new ApiCollectionResponseDTO($data, VehicleDTO::class);
     }
 }
