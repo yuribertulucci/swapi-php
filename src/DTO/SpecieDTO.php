@@ -18,6 +18,7 @@ class SpecieDTO extends BaseDTO
     private string $url;
     private string $created;
     private string $edited;
+    private string $pageUrl;
 
     public function __construct(array $data)
     {
@@ -35,6 +36,31 @@ class SpecieDTO extends BaseDTO
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
+
+        $this->id = $this->extractIdFromUrl($this->url);
+        $this->pageUrl = route('species.show', ['id' => $this->id]);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'classification' => $this->getClassification(),
+            'average_height' => $this->getAverageHeight(),
+            'average_lifespan' => $this->getAverageLifespan(),
+            'eye_colors' => $this->getEyeColors(),
+            'hair_colors' => $this->getHairColors(),
+            'skin_colors' => $this->getSkinColors(),
+            'language' => $this->getLanguage(),
+            'homeworld' => $this->getHomeworld(),
+            'people' => $this->getPeople(),
+            'films' => $this->getFilms(),
+            'url' => $this->getUrl(),
+            'created' => $this->getCreated(),
+            'edited' => $this->getEdited(),
+            'id' => $this->getId(),
+            'page_url' => $this->getPageUrl(),
+        ];
     }
 
     public function getName(): string
@@ -107,4 +133,8 @@ class SpecieDTO extends BaseDTO
         return $this->edited;
     }
 
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
+    }
 }

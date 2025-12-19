@@ -17,6 +17,7 @@ class FilmDTO extends BaseDTO
     private string $url;
     private string $created;
     private string $edited;
+    private string $pageUrl;
 
     public function __construct(array $data)
     {
@@ -33,6 +34,30 @@ class FilmDTO extends BaseDTO
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
+
+        $this->id = $this->extractIdFromUrl($this->url);
+        $this->pageUrl = route('films.show', ['id' => $this->id]);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->getTitle(),
+            'episode_id' => $this->getEpisodeId(),
+            'opening_crawl' => $this->getOpeningCrawl(),
+            'director' => $this->getDirector(),
+            'producer' => $this->getProducer(),
+            'release_date' => $this->getReleaseDate(),
+            'species' => $this->getSpecies(),
+            'starships' => $this->getStarships(),
+            'vehicles' => $this->getVehicles(),
+            'characters' => $this->getCharacters(),
+            'url' => $this->getUrl(),
+            'created' => $this->getCreated(),
+            'edited' => $this->getEdited(),
+            'id' => $this->getId(),
+            'page_url' => $this->getPageUrl(),
+        ];
     }
 
     public function getTitle(): string
@@ -99,4 +124,10 @@ class FilmDTO extends BaseDTO
     {
         return $this->edited;
     }
+
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
+    }
+
 }

@@ -5,6 +5,18 @@ namespace App\DTO;
 abstract class BaseDTO
 {
     protected array $hiddenFields = [];
+    protected int $id;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): BaseDTO
+    {
+        $this->id = $id;
+        return $this;
+    }
 
     public function toArray(): array
     {
@@ -32,5 +44,14 @@ abstract class BaseDTO
         });
 
         return $data;
+    }
+
+    protected function extractIdFromUrl(string $url): ?int
+    {
+        if (empty($url)) {
+            return null;
+        }
+        $parts = explode('/', trim($url, '/'));
+        return is_numeric(end($parts)) ? end($parts) : null;
     }
 }

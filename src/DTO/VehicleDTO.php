@@ -20,6 +20,7 @@ class VehicleDTO extends BaseDTO
     private string $url;
     private string $created;
     private string $edited;
+    private string $pageUrl;
 
     function __construct(array $data)
     {
@@ -39,6 +40,33 @@ class VehicleDTO extends BaseDTO
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
+
+        $this->id = $this->extractIdFromUrl($this->url);
+        $this->pageUrl = route('vehicles.show', ['id' => $this->id]);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'model' => $this->getModel(),
+            'vehicle_class' => $this->getVehicleClass(),
+            'manufacturer' => $this->getManufacturer(),
+            'length' => $this->getLength(),
+            'cost_in_credits' => $this->getCostInCredits(),
+            'crew' => $this->getCrew(),
+            'passengers' => $this->getPassengers(),
+            'max_atmosphering_speed' => $this->getMaxAtmospheringSpeed(),
+            'cargo_capacity' => $this->getCargoCapacity(),
+            'consumables' => $this->getConsumables(),
+            'films' => $this->getFilms(),
+            'pilots' => $this->getPilots(),
+            'url' => $this->getUrl(),
+            'created' => $this->getCreated(),
+            'edited' => $this->getEdited(),
+            'id' => $this->getId(),
+            'page_url' => $this->getPageUrl(),
+        ];
     }
 
     public function getName(): string
@@ -121,4 +149,8 @@ class VehicleDTO extends BaseDTO
         return $this->edited;
     }
 
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
+    }
 }

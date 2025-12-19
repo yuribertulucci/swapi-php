@@ -19,6 +19,7 @@ class PersonDTO extends BaseDTO
     private string $url;
     private string $created;
     private string $edited;
+    private string $pageUrl;
 
     public function __construct(array $data)
     {
@@ -37,8 +38,33 @@ class PersonDTO extends BaseDTO
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
+
+        $this->id = $this->extractIdFromUrl($this->url);
+        $this->pageUrl = route('people.show', ['id' => $this->id]);
     }
 
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'birth_year' => $this->getBirthYear(),
+            'gender' => $this->getGender(),
+            'hair_color' => $this->getHairColor(),
+            'height' => $this->getHeight(),
+            'mass' => $this->getMass(),
+            'skin_color' => $this->getSkinColor(),
+            'homeworld' => $this->getHomeworld(),
+            'films' => $this->getFilms(),
+            'species' => $this->getSpecies(),
+            'starships' => $this->getStarships(),
+            'vehicles' => $this->getVehicles(),
+            'url' => $this->getUrl(),
+            'created' => $this->getCreated(),
+            'edited' => $this->getEdited(),
+            'id' => $this->getId(),
+            'page_url' => $this->getPageUrl(),
+        ];
+    }
     public function getName(): string
     {
         return $this->name;
@@ -112,6 +138,11 @@ class PersonDTO extends BaseDTO
     public function getEdited(): string
     {
         return $this->edited;
+    }
+
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
     }
 
 }

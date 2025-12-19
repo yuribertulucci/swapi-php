@@ -18,6 +18,7 @@ class PlanetDTO extends BaseDTO
     private string $url;
     private string $created;
     private string $edited;
+    private string $pageUrl;
 
     public function __construct(array $data)
     {
@@ -35,6 +36,31 @@ class PlanetDTO extends BaseDTO
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
+
+        $this->id = $this->extractIdFromUrl($this->url);
+        $this->pageUrl = route('planets.show', ['id' => $this->id]);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'diameter' => $this->getDiameter(),
+            'rotation_period' => $this->getRotationPeriod(),
+            'orbital_period' => $this->getOrbitalPeriod(),
+            'gravity' => $this->getGravity(),
+            'population' => $this->getPopulation(),
+            'climate' => $this->getClimate(),
+            'terrain' => $this->getTerrain(),
+            'surface_water' => $this->getSurfaceWater(),
+            'residents' => $this->getResidents(),
+            'films' => $this->getFilms(),
+            'url' => $this->getUrl(),
+            'created' => $this->getCreated(),
+            'edited' => $this->getEdited(),
+            'id' => $this->getId(),
+            'page_url' => $this->getPageUrl(),
+        ];
     }
 
     public function getName(): string
@@ -107,4 +133,8 @@ class PlanetDTO extends BaseDTO
         return $this->edited;
     }
 
+    public function getPageUrl(): string
+    {
+        return $this->pageUrl;
+    }
 }
