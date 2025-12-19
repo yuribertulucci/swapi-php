@@ -4,4 +4,4 @@ use App\Routing\Route;
 
 Route::get('/', function () {
    return view('home');
-});
+})->name('home');
