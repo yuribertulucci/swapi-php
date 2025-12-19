@@ -82,6 +82,6 @@ if (! function_exists('route')) {
      */
     function route(string $name, array $params = []): string
     {
-        return \App\Routing\Router::instance()->generateUrl($name, $params) ?? '';
+        return \App\Routing\Router::instance()->generateUrl($name, $params);
     }
 }
