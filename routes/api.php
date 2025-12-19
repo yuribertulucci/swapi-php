@@ -14,33 +14,33 @@ Route::get('/test/', function () {
 
 Route::group(['prefix' => '/v1'], function () {
     Route::group('/films', function () {
-        Route::get('/', [FilmController::class, 'index']);
-        Route::get('/{id}', [FilmController::class, 'show']);
-        Route::get('/search/', [FilmController::class, 'search']);
+        Route::get('/', [FilmController::class, 'index'])->name('api.films.index');
+        Route::get('/{id}', [FilmController::class, 'show'])->name('api.films.show');
+        Route::get('/search/', [FilmController::class, 'search'])->name('api.films.search');
     });
     Route::group('/people', function () {
-        Route::get('/', [PersonController::class, 'index']);
-        Route::get('/{id}', [PersonController::class, 'show']);
-        Route::get('/search/', [PersonController::class, 'search']);
+        Route::get('/', [PersonController::class, 'index'])->name('api.people.index');
+        Route::get('/{id}', [PersonController::class, 'show'])->name('api.people.show');
+        Route::get('/search/', [PersonController::class, 'search'])->name('api.people.search');
     });
     Route::group('/planets', function () {
-        Route::get('/', [PlanetController::class, 'index']);
-        Route::get('/{id}', [PlanetController::class, 'show']);
-        Route::get('/search/', [PlanetController::class, 'search']);
+        Route::get('/', [PlanetController::class, 'index'])->name('api.planets.index');
+        Route::get('/{id}', [PlanetController::class, 'show'])->name('api.planets.show');
+        Route::get('/search/', [PlanetController::class, 'search'])->name('api.planets.search');
     });
     Route::group('/species', function () {
-        Route::get('/', [SpecieController::class, 'index']);
-        Route::get('/{id}', [SpecieController::class, 'show']);
-        Route::get('/search/', [SpecieController::class, 'search']);
+        Route::get('/', [SpecieController::class, 'index'])->name('api.species.index');
+        Route::get('/{id}', [SpecieController::class, 'show'])->name('api.species.show');
+        Route::get('/search/', [SpecieController::class, 'search'])->name('api.species.search');
     });
     Route::group('/starships', function () {
-        Route::get('/', [StarshipController::class, 'index']);
-        Route::get('/{id}', [StarshipController::class, 'show']);
-        Route::get('/search/', [StarshipController::class, 'search']);
+        Route::get('/', [StarshipController::class, 'index'])->name('api.starships.index');
+        Route::get('/{id}', [StarshipController::class, 'show'])->name('api.starships.show');
+        Route::get('/search/', [StarshipController::class, 'search'])->name('api.starships.search');
     });
     Route::group('/vehicles', function () {
-        Route::get('/', [VehicleController::class, 'index']);
-        Route::get('/{id}', [VehicleController::class, 'show']);
-        Route::get('/search/', [VehicleController::class, 'search']);
+        Route::get('/', [VehicleController::class, 'index'])->name('api.vehicles.index');
+        Route::get('/{id}', [VehicleController::class, 'show'])->name('api.vehicles.show');
+        Route::get('/search/', [VehicleController::class, 'search'])->name('api.vehicles.search');
     });
 });
