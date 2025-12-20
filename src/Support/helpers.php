@@ -85,3 +85,13 @@ if (! function_exists('route')) {
         return \App\Routing\Router::instance()->generateUrl($name, $params) ?? '';
     }
 }
+
+if (! function_exists('env')) {
+    /**
+     * Get the value of an environment variable.
+     */
+    function env(string $key, $default = null)
+    {
+        return \App\Core\Application::instance()->getEnv($key, $default);
+    }
+}

@@ -2,9 +2,9 @@
 
 namespace App\Core;
 
-use App\Routing\Route;
 use App\Routing\Router;
 use App\Traits\SingletonInstance;
+use Dotenv\Dotenv;
 
 class Application
 {
@@ -14,6 +14,7 @@ class Application
     private array $routes = [];
     private array $singletons = [];
     private array $config = [];
+    private array $env = [];
 
     private function __construct(string $basePath)
     {
@@ -86,6 +87,7 @@ class Application
      */
     private function bootstrap(): void
     {
+        $this->loadEnv();
         $this->loadConfig();
         $this->loadSingletons();
         $this->loadRoutes();
@@ -137,8 +139,18 @@ class Application
         }
     }
 
+    private function loadEnv(): void
+    {
+        $this->env = Dotenv::createImmutable($this->basePath)->load();
+    }
+
     public function getBasePath(): string
     {
         return $this->basePath;
+    }
+
+    public function getEnv(string $key, $default = null)
+    {
+        return $this->env[$key] ?? $default;
     }
 }
