@@ -45,7 +45,7 @@ class PersonDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'name' => $this->getName(),
             'birth_year' => $this->getBirthYear(),
             'gender' => $this->getGender(),
@@ -63,7 +63,7 @@ class PersonDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
     public function getName(): string
     {

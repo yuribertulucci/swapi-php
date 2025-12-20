@@ -41,7 +41,7 @@ class FilmDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'title' => $this->getTitle(),
             'episode_id' => $this->getEpisodeId(),
             'opening_crawl' => $this->getOpeningCrawl(),
@@ -57,7 +57,7 @@ class FilmDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
 
     public function getTitle(): string

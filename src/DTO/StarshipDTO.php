@@ -51,7 +51,7 @@ class StarshipDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'name' => $this->getName(),
             'model' => $this->getModel(),
             'starship_class' => $this->getStarshipClass(),
@@ -72,7 +72,7 @@ class StarshipDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
 
     public function getName(): string

@@ -12,12 +12,6 @@ abstract class BaseDTO
         return $this->id;
     }
 
-    public function setId(int $id): BaseDTO
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     public function toArray(): array
     {
         $data = obj2array($this);
@@ -29,7 +23,7 @@ abstract class BaseDTO
         return $this->replaceSwApiUrls($data);
     }
 
-    private function replaceSwApiUrls(array $data): array
+    protected function replaceSwApiUrls(array $data): array
     {
         array_walk_recursive($data, function (&$value, $key) {
             if ($key === 'url') {

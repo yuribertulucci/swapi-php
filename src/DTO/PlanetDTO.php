@@ -43,7 +43,7 @@ class PlanetDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'name' => $this->getName(),
             'diameter' => $this->getDiameter(),
             'rotation_period' => $this->getRotationPeriod(),
@@ -60,7 +60,7 @@ class PlanetDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
 
     public function getName(): string

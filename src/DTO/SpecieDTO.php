@@ -43,7 +43,7 @@ class SpecieDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'name' => $this->getName(),
             'classification' => $this->getClassification(),
             'average_height' => $this->getAverageHeight(),
@@ -60,7 +60,7 @@ class SpecieDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
 
     public function getName(): string

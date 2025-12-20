@@ -47,7 +47,7 @@ class VehicleDTO extends BaseDTO
 
     public function toArray(): array
     {
-        return [
+        return $this->replaceSwApiUrls([
             'name' => $this->getName(),
             'model' => $this->getModel(),
             'vehicle_class' => $this->getVehicleClass(),
@@ -66,7 +66,7 @@ class VehicleDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
-        ];
+        ]);
     }
 
     public function getName(): string
