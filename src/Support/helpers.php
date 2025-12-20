@@ -95,3 +95,14 @@ if (! function_exists('env')) {
         return \App\Core\Application::instance()->getEnv($key, $default);
     }
 }
+
+if (! function_exists('asset')) {
+    /**
+     * Generate a URL for an asset.
+     */
+    function asset(string $path): string
+    {
+        $baseUrl = env('APP_URL', 'http://localhost' . ':' . env('APP_PORT', '8010'));
+        return rtrim($baseUrl, '/') . '/' . ltrim($path, '/');
+    }
+}

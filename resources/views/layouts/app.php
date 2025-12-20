@@ -7,17 +7,18 @@
     <title>StarWars DB</title>
 
     <!-- Bootstrap CSS and JS -->
-    <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css">
-    <script type="application/javascript" src="/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('/assets/bootstrap/css/bootstrap.min.css') }}">
+    <script type="application/javascript" src="{{ asset('/assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- jQuery -->
-    <script type="application/javascript" src="/assets/jquery/jquery.min.js"></script>
+    <script type="application/javascript" src="{{ asset('/assets/jquery/jquery.min.js') }}"></script>
 </head>
 <body class="min-vh-100" data-bs-theme="dark">
 <header class="bg-dark">
     <div class="container navbar w-100">
-        <a href="{{ route('home') }}" class="link-warning link-underline-opacity-0 link-underline-opacity-75-hover link-offset-3-hover">
-            <img style="max-height: 30px;" class="me-2" src="site-icon.png" alt="icon">StarWars DB
+        <a href="{{ route('home') }}"
+           class="link-warning link-underline-opacity-0 link-underline-opacity-75-hover link-offset-3-hover">
+            <img style="max-height: 30px;" class="me-2" src="{{ asset('site-icon.png') }}" alt="icon">StarWars DB
         </a>
         <ul class="nav nav-underline">
             <li class="nav-item"><a class="nav-link link-warning" href="{{ route('films.index') }}">Films</a></li>
