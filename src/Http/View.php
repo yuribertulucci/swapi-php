@@ -49,7 +49,7 @@ class View
             }
         }
 
-        $content = preg_replace('/{{\s*(.+)\s*}}/', '<?php echo encode($1); ?>', $this->content);
+        $content = preg_replace('/{{\s*(.[^}}]+)\s*}}/', '<?php echo encode($1); ?>', $this->content);
 
         $content = preg_replace('/@if\s*\((.+)\)/', '<?php if ($1): ?>', $content);
         $content = preg_replace('/@elseif\s*\((.+)\)/', '<?php elseif ($1): ?>', $content);
