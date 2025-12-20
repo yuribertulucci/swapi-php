@@ -8,6 +8,7 @@ class Response
     public string $lastModified;
     public string $content;
     public int $statusCode = 200;
+    public array $headers = [];
 
     function __construct($text = null)
     {
@@ -18,6 +19,9 @@ class Response
 
     public function send(?string $content = null, ?int $statusCode = null): self
     {
+        foreach ($this->headers as $key => $value) {
+            header("{$key}: {$value}");
+        }
         http_response_code($statusCode ?? $this->statusCode);
         echo $content ?? $this->content;
 
@@ -26,7 +30,7 @@ class Response
 
     public function json($data, int $statusCode = 200): self
     {
-        header('Content-Type: application/json');
+        $this->headers['Content-Type'] = 'application/json';
         $processedData = $this->processData($data);
 
         if (is_array($processedData) || is_object($processedData)) {
@@ -51,14 +55,15 @@ class Response
             try {
                 $this->content = $viewRenderer->render($view, $data);
             } catch (\Exception $e) {
-                $this->content = "View file not found: {$viewRenderer->viewPath}";
-                $this->statusCode = 500;
+                $this->content = $viewRenderer->render('default.404', $data);
+                $this->statusCode = 404;
             }
         } else {
             $this->content = "No view specified.";
             $this->statusCode = 500;
         }
 
+        $this->headers['Content-Type'] = 'text/html';
         return $this;
     }
 
