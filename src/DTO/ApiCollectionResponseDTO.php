@@ -14,7 +14,7 @@ class ApiCollectionResponseDTO extends BaseDTO
 
     public function __construct(array $data, ?string $collectionItemDTO = null)
     {
-        $this->count = $data['count'] ?? '';
+        $this->count = (int) $data['count'] ?? '';
         $this->next = $data['next'] ?? '';
         $this->previous = $data['previous'] ?? '';
         $this->results = $data['results'] ?? [];

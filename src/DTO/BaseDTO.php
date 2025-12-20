@@ -5,9 +5,9 @@ namespace App\DTO;
 abstract class BaseDTO
 {
     protected array $hiddenFields = [];
-    protected int $id;
+    protected ?string $id;
 
-    public function getId(): int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -25,12 +25,13 @@ abstract class BaseDTO
 
     protected function replaceSwApiUrls(array $data): array
     {
-        array_walk_recursive($data, function (&$value, $key) {
+        $url = env('SWAPI_URL', 'https://swapi.py4e.com/api');
+        array_walk_recursive($data, function (&$value, $key) use ($url) {
             if ($key === 'url') {
-                $value = str_replace('https://swapi.dev/api/', '/api/', $value);
+                $value = str_replace($url, '/api/', $value);
             }
-            if (is_string($value) && str_contains($value, 'swapi.dev')) {
-                $value = str_replace('https://swapi.dev/api/', '/api/', $value);
+            if (is_string($value) && str_contains($value, $url)) {
+                $value = str_replace($url, '/api/', $value);
             }
             if ($key === 'next' || $key === 'previous' && $value !== null) {
                 $value = str_replace('&format=json', '', $value);

@@ -8,8 +8,8 @@ class PersonDTO extends BaseDTO
     private string $birthYear;
     private string $gender;
     private string $hairColor;
-    private int $height;
-    private int $mass;
+    private string $height;
+    private string $mass;
     private string $skinColor;
     private string $homeworld;
     private array $films;
@@ -85,12 +85,12 @@ class PersonDTO extends BaseDTO
         return $this->hairColor;
     }
 
-    public function getHeight(): int
+    public function getHeight(): string
     {
         return $this->height;
     }
 
-    public function getMass(): int
+    public function getMass(): string
     {
         return $this->mass;
     }

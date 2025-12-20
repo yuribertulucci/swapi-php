@@ -11,6 +11,7 @@ use App\DTO\PlanetDTO;
 use App\DTO\SpecieDTO;
 use App\DTO\StarshipDTO;
 use App\DTO\VehicleDTO;
+use Env\Dotenv;
 use Exception;
 
 class StarWarsApiService
@@ -19,16 +20,16 @@ class StarWarsApiService
 
     function __construct()
     {
-        $this->client = new HttpClient('https://swapi.dev/api/', 'json');
+        $this->client = new HttpClient(env('SWAPI_URL', 'https://swapi.py4e.com/api/'), 'json');
     }
 
     /**
      * @throws Exception
      */
-    public function getPeople(?int $page = null): BaseDTO
+    public function getPeople($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -48,10 +49,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchPeople(string $query, ?int $page = null): BaseDTO
+    public function searchPeople(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
@@ -62,10 +63,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function getFilms(?int $page = null): BaseDTO
+    public function getFilms($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -85,10 +86,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchFilms(string $query, ?int $page = null): BaseDTO
+    public function searchFilms(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
@@ -99,10 +100,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function getStarships(?int $page = null): BaseDTO
+    public function getStarships($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -122,10 +123,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchStarships(string $query, ?int $page = null): BaseDTO
+    public function searchStarships(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
@@ -136,10 +137,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function getPlanets(?int $page = null): BaseDTO
+    public function getPlanets($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -159,10 +160,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchPlanets(string $query, ?int $page = null): BaseDTO
+    public function searchPlanets(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
@@ -173,10 +174,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function getSpecies(?int $page = null): BaseDTO
+    public function getSpecies($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -196,10 +197,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchSpecies(string $query, ?int $page = null): BaseDTO
+    public function searchSpecies(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
@@ -210,10 +211,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function getVehicles(?int $page = null): BaseDTO
+    public function getVehicles($page = null): BaseDTO
     {
         $params = [];
-        if ($page) {
+        if (!empty($page)) {
             $params = ['page' => $page];
         }
 
@@ -233,10 +234,10 @@ class StarWarsApiService
     /**
      * @throws Exception
      */
-    public function searchVehicles(string $query, ?int $page = null): BaseDTO
+    public function searchVehicles(string $query, $page = null): BaseDTO
     {
         $params = ['search' => $query];
-        if ($page) {
+        if (!empty($page)) {
             $params['page'] = $page;
         }
 
