@@ -142,7 +142,7 @@ class Application
 
     private function loadEnv(): void
     {
-        $this->env = Dotenv::createImmutable($this->basePath)->load();
+        $this->env = Dotenv::createArrayBacked($this->basePath)->load();
     }
 
     public function getBasePath(): string
