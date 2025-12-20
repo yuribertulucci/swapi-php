@@ -25,7 +25,7 @@ abstract class BaseDTO
 
     protected function replaceSwApiUrls(array $data): array
     {
-        $url = env('SWAPI_URL', 'https://swapi.py4e.com/api');
+        $url = env('SWAPI_URL', 'https://swapi.py4e.com/api/');
         array_walk_recursive($data, function (&$value, $key) use ($url) {
             if ($key === 'url') {
                 $value = str_replace($url, '/api/', $value);
