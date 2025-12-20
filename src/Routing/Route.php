@@ -30,7 +30,7 @@ class Route
 
         $routes();
 
-        Router::clearRoutePrefix();
+        Router::removeLastRoutePrefix();
     }
 
     public static function get(string $pattern, $action): Route

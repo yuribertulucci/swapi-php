@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Routing\Route;
 use App\Routing\Router;
 use App\Traits\SingletonInstance;
 use Dotenv\Dotenv;
@@ -100,8 +101,8 @@ class Application
     {
         foreach ($this->routes as $routeType => $routesFilePath) {
             if (file_exists($routesFilePath)) {
-                if ($routeType === 'api' && isset($this->config['routes']['prefix']['api'])) {
-                    Router::withGlobalPrefix($this->config['routes']['prefix']['api'], function () use ($routesFilePath) {
+                if (in_array($routeType, array_keys($this->config['routes']['prefix']))) {
+                    Route::group($this->config['routes']['prefix'][$routeType], function () use ($routesFilePath) {
                         require $routesFilePath;
                     });
                     continue;

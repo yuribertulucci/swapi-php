@@ -13,33 +13,30 @@ class Router
     /* @var $routes array<string, array<string, Route>> */
     private array $routes;
     private string $route = '';
-    private string $routePrefix = '';
+    private array $routePrefixes = [];
     private string $globalPrefix = '';
 
     public static function routePrefix($routePrefix): Router
     {
         $instance = self::instance();
-        $instance->routePrefix .= '/' . trim($routePrefix, '/');
+        $instance->routePrefixes[] = trim($routePrefix, '/');
 
         return $instance;
     }
 
-    public static function clearRoutePrefix(): Router
+    public static function removeLastRoutePrefix(): Router
     {
         $instance = self::instance();
-        $instance->routePrefix = '';
+        if (is_null(array_pop($instance->routePrefixes))) {
+            $instance->clearRoutePrefixes();
+        }
 
         return $instance;
     }
 
-    public static function withGlobalPrefix(string $prefix, \Closure $param)
+    public function clearRoutePrefixes(): void
     {
-        $router = self::instance();
-        $router->globalPrefix = '/' . trim($prefix, '/');
-
-        $param();
-
-        $router->globalPrefix = '';
+        $this->routePrefixes = [];
     }
 
     public function loadRoutes(array $routes): void
@@ -49,12 +46,7 @@ class Router
 
     public function addRoute(string $method, string $pattern, $action): Route
     {
-        $currentPrefix = trim($this->routePrefix);
-        if ($this->globalPrefix && ! in_array($currentPrefix, ['', '/'])) {
-            $currentPrefix = rtrim($this->globalPrefix, '/') . '/' . trim($this->routePrefix, '/');
-        } elseif ($this->globalPrefix) {
-            $currentPrefix = rtrim($this->globalPrefix, '/');
-        }
+        $currentPrefix = $this->getRoutePrefix();
 
         if ($pattern === '/') {
             $pattern = $currentPrefix . '/';
@@ -129,7 +121,13 @@ class Router
 
     public function getRoutePrefix(): string
     {
-        return $this->routePrefix;
+        $currentPrefix = '/' . implode('/', $this->routePrefixes);
+
+        if ($currentPrefix === '/') {
+            $currentPrefix = '';
+        }
+
+        return $currentPrefix;
     }
 
     public function getRouteByName(string $name): ?Route
