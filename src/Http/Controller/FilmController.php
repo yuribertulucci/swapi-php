@@ -4,20 +4,20 @@ namespace App\Http\Controller;
 
 use App\Http\Response;
 
-class PersonController
+class FilmController
 {
     public function index(): Response
     {
-        return view('people.index');
+        return view('films.index');
     }
 
     public function show($id): Response
     {
-        return view('people.show', ['id' => $id]);
+        return view('films.show', ['id' => $id]);
     }
 
     public function search($query)
     {
-        // Logic to search for people
+        // Logic to search for films
     }
 }

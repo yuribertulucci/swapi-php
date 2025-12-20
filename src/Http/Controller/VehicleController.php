@@ -4,20 +4,20 @@ namespace App\Http\Controller;
 
 use App\Http\Response;
 
-class PersonController
+class VehicleController
 {
     public function index(): Response
     {
-        return view('people.index');
+        return view('vehicles.index');
     }
 
     public function show($id): Response
     {
-        return view('people.show', ['id' => $id]);
+        return view('vehicles.show', ['id' => $id]);
     }
 
     public function search($query)
     {
-        // Logic to search for people
+        // Logic to search for vehicles
     }
 }
