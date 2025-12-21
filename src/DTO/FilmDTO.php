@@ -18,6 +18,7 @@ class FilmDTO extends BaseDTO
     private string $created;
     private string $edited;
     private string $pageUrl;
+    private string $age;
 
     public function __construct(array $data)
     {
@@ -37,6 +38,8 @@ class FilmDTO extends BaseDTO
 
         $this->id = $this->extractIdFromUrl($this->url);
         $this->pageUrl = route('films.show', ['id' => $this->id]);
+
+        $this->age = $this->calculateAge($this->releaseDate) ?? 'Unknown';
     }
 
     public function toArray(): array
@@ -57,7 +60,36 @@ class FilmDTO extends BaseDTO
             'edited' => $this->getEdited(),
             'id' => $this->getId(),
             'page_url' => $this->getPageUrl(),
+            'age' => $this->getAge(),
         ]);
+    }
+
+    private function calculateAge(string $releaseDate): ?string
+    {
+        $releaseYear = date_create($releaseDate);
+        $currentYear = date_create(date('Y-m-d'));
+
+        $dateInterval = date_diff($releaseYear, $currentYear);
+        if (! $dateInterval) {
+            return null;
+        }
+
+        $stringParts = [];
+        if ($dateInterval->y > 0) {
+            $stringParts[] = $dateInterval->y . ' year' . ($dateInterval->y > 1 ? 's' : '');
+        }
+        if ($dateInterval->m > 0) {
+            $stringParts[] = $dateInterval->m . ' month' . ($dateInterval->m > 1 ? 's' : '');
+        }
+        if ($dateInterval->d > 0) {
+            $stringParts[] = $dateInterval->d . ' day' . ($dateInterval->d > 1 ? 's' : '');
+        }
+
+        if (count($stringParts) > 1) {
+            return implode(', ', array_slice($stringParts, 0, -1)) . ' and ' . end($stringParts);
+        } else {
+            return end($stringParts);
+        }
     }
 
     public function getTitle(): string
@@ -128,6 +160,11 @@ class FilmDTO extends BaseDTO
     public function getPageUrl(): string
     {
         return $this->pageUrl;
+    }
+
+    public function getAge(): string
+    {
+        return $this->age;
     }
 
 }
