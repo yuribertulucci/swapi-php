@@ -109,19 +109,6 @@
         $('#consumables').text(starship.consumables);
         $('#starship-image').attr('src', 'https://placehold.co/300x400/1a1a1a/FFFFFF/?text=' + encodeURIComponent(starship.name));
 
-        if (starship.homeworld) {
-            $.ajax(starship.homeworld, {
-                method: 'GET',
-                dataType: 'json'
-            }).then(function (homeworld) {
-                $('#homeworld').html(`<span class="badge bg-light-subtle me-1 mb-1"><a href="${homeworld?.page_url}" class="link-light link-underline-opacity-0 link-underline-opacity-75-hover">${homeworld.name}</a></span>`);
-            }).catch(function () {
-                $('#homeworld').text('Unknown');
-            });
-        } else {
-            $('#homeworld').text('Unknown');
-        }
-
         if (starship.films && starship.films.length > 0) {
             const filmPromises = starship.films.map(url => $.ajax(url, { method: 'GET', dataType: 'json' }));
             Promise.all(filmPromises).then(function (films) {
