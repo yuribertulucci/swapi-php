@@ -18,8 +18,8 @@ class StarshipController
     public function index(): Response
     {
         try {
-            $films = $this->starWarsApiService->getStarships(request()->getQuery('page'));
-            return response()->json($films);
+            $starships = $this->starWarsApiService->getStarships(request()->getQuery('page'));
+            return response()->json($starships);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -28,8 +28,8 @@ class StarshipController
     public function show($id): Response
     {
         try {
-            $film = $this->starWarsApiService->getStarship($id);
-            return response()->json($film);
+            $starship = $this->starWarsApiService->getStarship($id);
+            return response()->json($starship);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -38,11 +38,11 @@ class StarshipController
     public function search(): Response
     {
         try {
-            $films = $this->starWarsApiService->searchStarships(
+            $starships = $this->starWarsApiService->searchStarships(
                 request()->getQuery('query'),
                 request()->getQuery('page')
             );
-            return response()->json($films);
+            return response()->json($starships);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }

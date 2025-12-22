@@ -18,8 +18,8 @@ class SpecieController
     public function index(): Response
     {
         try {
-            $films = $this->starWarsApiService->getSpecies(request()->getQuery('page'));
-            return response()->json($films);
+            $species = $this->starWarsApiService->getSpecies(request()->getQuery('page'));
+            return response()->json($species);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -28,8 +28,8 @@ class SpecieController
     public function show($id): Response
     {
         try {
-            $film = $this->starWarsApiService->getSpecie($id);
-            return response()->json($film);
+            $specie = $this->starWarsApiService->getSpecie($id);
+            return response()->json($specie);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -38,11 +38,11 @@ class SpecieController
     public function search(): Response
     {
         try {
-            $films = $this->starWarsApiService->searchSpecies(
+            $species = $this->starWarsApiService->searchSpecies(
                 request()->getQuery('query'),
                 request()->getQuery('page')
             );
-            return response()->json($films);
+            return response()->json($species);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }

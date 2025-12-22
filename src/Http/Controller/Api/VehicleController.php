@@ -18,8 +18,8 @@ class VehicleController
     public function index(): Response
     {
         try {
-            $films = $this->starWarsApiService->getFilms(request()->getQuery('page'));
-            return response()->json($films);
+            $vehicles = $this->starWarsApiService->getVehicles(request()->getQuery('page'));
+            return response()->json($vehicles);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -28,8 +28,8 @@ class VehicleController
     public function show($id): Response
     {
         try {
-            $film = $this->starWarsApiService->getFilm($id);
-            return response()->json($film);
+            $vehicle = $this->starWarsApiService->getVehicle($id);
+            return response()->json($vehicle);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
@@ -38,11 +38,11 @@ class VehicleController
     public function search(): Response
     {
         try {
-            $films = $this->starWarsApiService->searchFilms(
+            $vehicles = $this->starWarsApiService->searchVehicles(
                 request()->getQuery('query'),
                 request()->getQuery('page')
             );
-            return response()->json($films);
+            return response()->json($vehicles);
         } catch (\Exception $e) {
             return response()->error($e->getMessage(), 500);
         }
