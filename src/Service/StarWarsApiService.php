@@ -228,7 +228,7 @@ class StarWarsApiService
     public function getVehicle(int $id): BaseDTO
     {
         $data = $this->client->get("vehicles/{$id}/");
-        return new SpecieDTO($data);
+        return new VehicleDTO($data);
     }
 
     /**
