@@ -75,7 +75,7 @@
         async: true
     }).then(function (planet) {
         $('#planet-name').text(planet.name);
-        $('#diameter').text(planet.diameter);
+        $('#diameter').text(Intl.NumberFormat('en-US').format(planet.diameter) !== 'NaN' ? Intl.NumberFormat('en-US').format(planet.diameter) : planet.diameter + ' km');
         $('#rotation-period').text(planet.rotation_period + ' hours');
         $('#orbital-period').text(planet.orbital_period + ' days');
         $('#gravity').text(planet.gravity);
@@ -88,7 +88,7 @@
         if (planet.residents && planet.residents.length > 0) {
             const residentPromises = planet.residents.map(url => $.ajax(url, { method: 'GET', dataType: 'json' }));
             Promise.all(residentPromises).then(function (residents) {
-                const residentList = residents.map(resident => `<span class="badge bg-secondary me-1 mb-1"><a href="${resident?.page_url}" class="link-warning link-underline-opacity-0 link-underline-opacity-75-hover">${resident.name}</a></span>`).join('');
+                const residentList = residents.map(resident => `<span class="badge bg-primary text-light me-1 mb-1"><a href="${resident?.page_url}" class="link-light link-underline-opacity-0 link-underline-opacity-75-hover">${resident.name}</a></span>`).join('');
                 $('#residents').html(residentList);
             }).catch(function () {
                 $('#residents').text('Unable to load residents');

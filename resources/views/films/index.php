@@ -6,11 +6,11 @@
         <span class="loader mt-5 mx-auto"></span>
         <template id="card-template">
             <div class="col">
-                <div class="card">
+                <div class="card h-100">
                     <img src="https://placehold.co/500x300/1a1a1a/FFFFFF" alt="film-img"
                          class="card-img-top object-fit-cover" style="max-height: 300px;"
                          referrerpolicy="no-referrer">
-                    <div class="card-body">
+                    <div class="card-body d-grid">
                         <h5 class="card-title"></h5>
                         <div class="card-text">
                             <p class="mb-1"><strong>Director(s):</strong> <span class="director"></span></p>
@@ -18,7 +18,9 @@
                             <p class="mb-1"><strong>Release Date:</strong> <span class="release-date"></span></p>
                             <p class="mb-1"><strong>Age:</strong> <span class="age"></span></p>
                         </div>
-                        <a href="" class="btn btn-sm btn-info mt-3">Details</a>
+                        <div class="d-flex justify-content-center align-items-end">
+                            <a href="" class="btn btn-sm btn-info mt-3">Details</a>
+                        </div>
                     </div>
                 </div>
             </div>

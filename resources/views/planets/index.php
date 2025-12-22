@@ -55,9 +55,9 @@
         planets.forEach(function (planet) {
             const planetCard = $(template);
             planetCard.find('.card-title').text(planet.name);
-            planetCard.find('.diameter').text(planet.diameter);
+            planetCard.find('.diameter').text(Intl.NumberFormat('en-US').format(planet.diameter) !== 'NaN' ? Intl.NumberFormat('en-US').format(planet.diameter) : planet.diameter);
             planetCard.find('.gravity').text(planet.gravity);
-            planetCard.find('.population').text(planet.population);
+            planetCard.find('.population').text(Intl.NumberFormat('en-US').format(planet.population) !== 'NaN' ? Intl.NumberFormat('en-US').format(planet.population) : planet.population);
             planetCard.find('.climate').text(planet.climate);
             planetCard.find('.terrain').text(planet.terrain);
             planetCard.find('img').attr('src', 'https://placehold.co/500x300/1a1a1a/FFFFFF/?text=' + encodeURIComponent(planet.name));
