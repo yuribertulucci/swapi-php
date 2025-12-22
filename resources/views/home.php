@@ -30,40 +30,18 @@
 </style>
 
 <script>
-    function episodeNumberToRoman(num) {
-        if (!isFinite(num)) {
-            return '';
-        }
-        const romanNumerals = [
-            { value: 10, numeral: 'X' },
-            { value: 9, numeral: 'IX' },
-            { value: 5, numeral: 'V' },
-            { value: 4, numeral: 'IV' },
-            { value: 1, numeral: 'I' }
-        ];
-
-        let result = '';
-        for (const { value, numeral } of romanNumerals) {
-            while (num >= value) {
-                result += numeral;
-                num -= value;
-            }
-        }
-        return result;
-    }
-
     $.ajax('{{ route("api.films.index") }}', {
         method: 'GET',
         dataType: 'json',
         async: true
-    }).then(function(response) {
+    }).then(function (response) {
         const films = response.results;
         const template = $('#card-template').html();
         const filmsList = $('#films-list');
 
         $('.loader').remove();
 
-        films.forEach(function(film) {
+        films.forEach(function (film) {
             const filmCard = $(template);
             filmCard.find('.card-title').text(film.title);
             filmCard.find('.card-text').text(film.opening_crawl);
