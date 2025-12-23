@@ -28,7 +28,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-starpassword}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
     ports:
-      - "${FOWARD_DB_PORT:-3306}:3306"
+      - "${FORWARD_DB_PORT:-3306}:3306"
     volumes:
       - ./docker/db_data:/var/lib/mysql
       - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
