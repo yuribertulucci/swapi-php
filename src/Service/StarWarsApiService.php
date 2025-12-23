@@ -11,7 +11,6 @@ use App\DTO\PlanetDTO;
 use App\DTO\SpecieDTO;
 use App\DTO\StarshipDTO;
 use App\DTO\VehicleDTO;
-use Env\Dotenv;
 use Exception;
 
 class StarWarsApiService
