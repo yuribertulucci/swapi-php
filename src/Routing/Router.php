@@ -15,6 +15,31 @@ class Router
     private string $route = '';
     private array $routePrefixes = [];
     private string $globalPrefix = '';
+    private array $middlewares = [];
+
+    public static function routeMiddleware($middleware): Router
+    {
+        $instance = self::instance();
+
+        if (is_string($middleware)) {
+            $instance->middlewares[] = $middleware;
+        }
+        if (is_array($middleware)) {
+            $instance->middlewares = array_merge($instance->middlewares, $middleware);
+        }
+
+        return $instance;
+    }
+
+    public static function removeLastMiddleware(): Router
+    {
+        $instance = self::instance();
+        if (is_null(array_pop($instance->middlewares))) {
+            $instance->middlewares = [];
+        }
+
+        return $instance;
+    }
 
     public static function routePrefix($routePrefix): Router
     {
@@ -54,7 +79,13 @@ class Router
             $pattern = $currentPrefix . '/' . trim($pattern, '/') . '/';
         }
 
-        return $this->routes[$method][$pattern] = new Route($method, $pattern, $action);
+        $newRoute = new Route($method, $pattern, $action);
+
+        if (! empty($this->middlewares)) {
+            $newRoute->withMiddleware($this->middlewares);
+        }
+
+        return $this->routes[$method][$pattern] = $newRoute;
     }
 
     public static function addRouteStatic(string $method, string $pattern, $action): Route
@@ -90,33 +121,43 @@ class Router
 
     public function processRoute(Route $route): ?Response
     {
-        $routeDetails = $route->getDetails();
-        $routeAction = $routeDetails['action'];
-        $routeParams = $routeDetails['parameters'] ?? [];
-        $routeActionParams = array_values($routeParams);
+        $request = Request::instance();
+        $middlewares = array_merge($this->middlewares, $route->getMiddlewares());
 
-        if (is_string($routeAction)) {
-            $controllerAction = explode('@', $routeAction);
-            $controllerName = $controllerAction[0];
-            $actionName = $controllerAction[1];
+        // Criar a cadeia de middlewares
+        $next = function () use ($route) {
+            $routeDetails = $route->getDetails();
+            $routeAction = $routeDetails['action'];
+            $routeParams = $routeDetails['parameters'] ?? [];
+            $routeActionParams = array_values($routeParams);
 
-            $controller = new $controllerName();
-            return $controller->$actionName(...$routeActionParams);
+            if (is_string($routeAction)) {
+                [$controllerName, $actionName] = explode('@', $routeAction);
+                $controller = new $controllerName();
+                return $controller->$actionName(...$routeActionParams);
+            }
+
+            if (is_array($routeAction)) {
+                [$controllerName, $actionName] = $routeAction;
+                $controller = new $controllerName();
+                return $controller->$actionName(...$routeActionParams);
+            }
+
+            if ($routeAction instanceof \Closure) {
+                return $routeAction(...$routeActionParams);
+            }
+
+            return null;
+        };
+
+        foreach (array_reverse($middlewares) as $middleware) {
+            $middlewareInstance = is_string($middleware) ? new $middleware() : $middleware;
+            $next = function ($request) use ($middlewareInstance, $next) {
+                return $middlewareInstance->handle($request, $next);
+            };
         }
 
-        if (is_array($routeAction)) {
-            $controllerName = $routeAction[0];
-            $actionName = $routeAction[1];
-
-            $controller = new $controllerName();
-            return $controller->$actionName(...$routeActionParams);
-        }
-
-        if ($routeAction instanceof \Closure) {
-            return $routeAction(...$routeActionParams);
-        }
-
-        return null;
+        return $next($request);
     }
 
     public function getRoutePrefix(): string

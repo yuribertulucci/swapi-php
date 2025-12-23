@@ -10,6 +10,7 @@ class Route
     private $action;
     private ?string $name = null;
     private ?array $parameters = null;
+    private array $middlewares = [];
 
     public function __construct(string $method, string $pattern, $action)
     {
@@ -26,11 +27,22 @@ class Route
 
         if (isset($configs['prefix'])) {
             Router::routePrefix($configs['prefix']);
+            $removePrefix = true;
+        }
+
+        if (isset($configs['middleware'])) {
+            Router::routeMiddleware($configs['middleware']);
+            $removeMiddleware = true;
         }
 
         $routes();
 
-        Router::removeLastRoutePrefix();
+        if (isset($removePrefix)) {
+            Router::removeLastRoutePrefix();
+        }
+        if (isset($removeMiddleware)) {
+            Router::removeLastMiddleware();
+        }
     }
 
     public static function get(string $pattern, $action): Route
@@ -78,11 +90,28 @@ class Route
             'action' => $this->action,
             'name' => $this->name,
             'parameters' => $this->parameters,
+            'middlewares' => $this->middlewares,
         ];
     }
 
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getMiddlewares(): array
+    {
+        return $this->middlewares;
+    }
+
+    public function withMiddleware($middlewares): self
+    {
+        if (!is_array($middlewares)) {
+            $middlewares = [$middlewares];
+        }
+
+        $this->middlewares = array_merge($this->middlewares, $middlewares);
+
+        return $this;
     }
 }
