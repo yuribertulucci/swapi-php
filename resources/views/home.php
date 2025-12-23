@@ -2,17 +2,19 @@
 
 <div class="d-flex text-center flex-column justify-content-center mt-4">
     <h2 class="w-100">Films</h2>
-    <div class="row row-cols-3 row-gap-3 my-4" id="films-list">
+    <div class="row row-cols-3 row-gap-4 my-4 justify-content-center" id="films-list">
         <span class="loader mt-5 mx-auto"></span>
         <template id="card-template">
             <div class="col">
-                <card class="card">
+                <card class="card h-100">
                     <img src="https://placehold.co/10x10" alt="film-img" class="card-img-top object-fit-cover" style="max-height: 300px;"
                          referrerpolicy="no-referrer">
-                    <div class="card-body">
+                    <div class="card-body d-grid">
                         <h5 class="card-title"></h5>
                         <div class="card-text"></div>
-                        <a href="" class="btn btn-sm btn-info mt-3">See more</a>
+                        <div class="d-flex justify-content-center align-items-end">
+                            <a href="" class="btn btn-sm btn-info mt-3">See more</a>
+                        </div>
                     </div>
                 </card>
             </div>
