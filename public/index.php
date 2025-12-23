@@ -14,5 +14,6 @@ Application::configure(dirname(__DIR__))
     ->withSingletons([
         \App\Routing\Router::class,
         \App\Http\Request::class,
+        \App\Database\Connection::class,
     ])
     ->run();

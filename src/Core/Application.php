@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Database\Connection;
 use App\Routing\Route;
 use App\Routing\Router;
 use App\Traits\SingletonInstance;
@@ -91,6 +92,7 @@ class Application
         $this->loadEnv();
         $this->loadConfig();
         $this->loadSingletons();
+        $this->loadDatabase();
         $this->loadRoutes();
     }
 
@@ -143,6 +145,19 @@ class Application
     private function loadEnv(): void
     {
         $this->env = Dotenv::createArrayBacked($this->basePath)->load();
+    }
+
+    private function loadDatabase(): void
+    {
+        Connection::instance()
+            ->connect(
+                $this->config['database']['driver'],
+                $this->config['database']['host'],
+                $this->config['database']['port'],
+                $this->config['database']['username'],
+                $this->config['database']['password'],
+                $this->config['database']['database']
+            );
     }
 
     public function getBasePath(): string
