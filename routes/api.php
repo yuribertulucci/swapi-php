@@ -10,9 +10,15 @@ use App\Http\Controller\Api\VehicleController;
 
 Route::get('/test/', function () {
     return response()->json(['message' => 'API is working!']);
-})->name('api.test');
+})->name('api.test')
+    ->withMiddleware(\App\Middleware\LoggerMiddleware::class);
 
-Route::group(['prefix' => '/v1'], function () {
+Route::group([
+    'prefix' => '/v1',
+    'middleware' => [
+        \App\Middleware\LoggerMiddleware::class,
+    ],
+], function () {
     Route::group('/films', function () {
         Route::get('/', [FilmController::class, 'index'])->name('api.films.index');
         Route::get('/{id}', [FilmController::class, 'show'])->name('api.films.show');
