@@ -3,20 +3,28 @@
 namespace App\Support;
 
 use App\Database\Connection;
+use App\Model\ApiLogModel;
 use PDO;
+use PDOException;
 
 class Logger
 {
     public static function logApi(string $level, array $context = []): void
     {
-        $connection = Connection::instance()->getConnection();
-        $request = request();
-        $stmt = $connection->prepare("INSERT INTO api_logs (level, endpoint, method, status_code) VALUES (:level, :endpoint, :method, :status_code)");
-        $stmt->execute([
-            ':level' => $level,
-            ':endpoint' => $context['endpoint'] ?? $request->getUri(),
-            ':method' => $context['method'] ?? $request->getMethod(),
-            ':status_code' => $context['status_code'] ?? 0,
+        $log = new ApiLogModel([
+            'level' => $level,
+            'endpoint' => $context['endpoint'] ?? '',
+            'method' => $context['method'] ?? '',
+            'status_code' => $context['status_code'] ?? 0,
+            'created_at' => time(),
         ]);
+
+        try {
+            $log->save();
+        } catch (PDOException $e) {
+            error_log('Failed to log API request: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            error_log('An unexpected error occurred while logging API request: ' . $e->getMessage());
+        }
     }
 }
