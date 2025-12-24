@@ -15,7 +15,7 @@ class ApiLogModel extends BaseModel
     public string $endpoint;
     public string $method;
     public int $statusCode;
-    public int $createdAt;
+    public string $createdAt;
 
     public function __construct(array $data = [])
     {
@@ -24,7 +24,7 @@ class ApiLogModel extends BaseModel
         $this->endpoint = $data['endpoint'] ?? '';
         $this->method = $data['method'] ?? '';
         $this->statusCode = $data['status_code'] ?? 0;
-        $this->createdAt = $data['created_at'] ?? time();
+        $this->createdAt = $data['created_at'] ?? date('Y-m-d H:i:s');
     }
 
     public function save(): bool

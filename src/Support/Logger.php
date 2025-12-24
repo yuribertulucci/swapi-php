@@ -16,7 +16,7 @@ class Logger
             'endpoint' => $context['endpoint'] ?? '',
             'method' => $context['method'] ?? '',
             'status_code' => $context['status_code'] ?? 0,
-            'created_at' => time(),
+            'created_at' => date('Y-m-d H:i:s'),
         ]);
 
         try {
