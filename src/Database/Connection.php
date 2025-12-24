@@ -17,14 +17,14 @@ class Connection
 
     private function __construct() {}
 
-    public function connect(string $driver, string $host, string $port, string $username, string $password, string $database): Connection
+    public function connect(string $driver, string $host, string $port, string $username, string $password, string $database, array $options = null): Connection
     {
         $this->driver = $driver;
         $this->host = $host;
         $this->port = $port;
         $this->database = $database;
 
-        $pdo = new PDO("{$this->driver}:host={$this->host};port={$this->port};dbname={$this->database}", $username, $password);
+        $pdo = new PDO("{$this->driver}:host={$this->host};port={$this->port};dbname={$this->database}", $username, $password, $options);
         $this->connection = $pdo;
 
         return $this;

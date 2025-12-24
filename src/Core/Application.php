@@ -156,7 +156,8 @@ class Application
                 $this->config['database']['port'],
                 $this->config['database']['username'],
                 $this->config['database']['password'],
-                $this->config['database']['database']
+                $this->config['database']['database'],
+                $this->config['database']['options'] ?? []
             );
     }
 
