@@ -1,0 +1,24 @@
+services:
+  caddy:
+    image: caddy:2.7-alpine
+    container_name: starwars_caddy
+    ports:
+      - "${APP_PORT:-8010}:80"
+    volumes:
+      - ./docker/conf/Caddyfile:/etc/caddy/Caddyfile:ro
+    networks:
+      - starwars_network
+    depends_on:
+      - app
+      - swagger
+
+  swagger:
+    image: swaggerapi/swagger-ui:v5.31.0
+    container_name: starwars_swagger
+    environment:
+      - SWAGGER_JSON=/swagger.yaml
+      - BASE_URL=/swagger
+    volumes:
+      - ${SWAGGER_FILE:-./docs/swagger.yaml}:/swagger.yaml:ro
+    networks:
+      - starwars_network

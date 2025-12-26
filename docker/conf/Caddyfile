@@ -1,0 +1,9 @@
+:80 {
+    handle /swagger* {
+        reverse_proxy swagger:8080
+    }
+
+    handle {
+        reverse_proxy app:80
+    }
+}
