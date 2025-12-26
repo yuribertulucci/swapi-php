@@ -1,0 +1,625 @@
+openapi: 3.1.0
+info:
+  title: Star Wars API
+  description: |-
+    This is a simple API for accessing Star Wars data including films, people, planets, species, starships, and vehicles.
+tags:
+  0:
+    name: film
+    description: Operations about planets
+  1:
+    name: person
+    description: Operations about people
+  2:
+    name: planet
+    description: Operations about planets
+  3:
+    name: specie
+    description: Operations about species
+  4:
+    name: starship
+    description: Operations about starships
+  5:
+    name: vehicle
+    description: Operations about vehicles
+servers:
+  - url: /api/v1
+    description: Local server
+paths:
+  /films:
+    get:
+      tags:
+        - Film
+      summary: Get all films
+      responses:
+        '200':
+          description: A list of films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmCollection'
+  /films/{id}:
+    get:
+      tags:
+        - Film
+      summary: Get a film by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single film
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+  /films/search:
+    get:
+      tags:
+        - Film
+      summary: Search films by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmCollection'
+  /people:
+    get:
+      tags:
+        - Person
+      summary: Get all people
+      responses:
+        '200':
+          description: A list of people
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonCollection'
+  /people/{id}:
+    get:
+      tags:
+        - Person
+      summary: Get a person by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single person
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+  /people/search:
+    get:
+      tags:
+        - Person
+      summary: Search people by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching people
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonCollection'
+  /planets:
+    get:
+      tags:
+        - Planet
+      summary: Get all planets
+      responses:
+        '200':
+          description: A list of planets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanetCollection'
+  /planets/{id}:
+    get:
+      tags:
+        - Planet
+      summary: Get a planet by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single planet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Planet'
+  /planets/search:
+    get:
+      tags:
+        - Planet
+      summary: Search planets by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching planets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanetCollection'
+  /species:
+    get:
+      tags:
+        - Specie
+      summary: Get all species
+      responses:
+        '200':
+          description: A list of species
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpecieCollection'
+  /species/{id}:
+    get:
+      tags:
+        - Specie
+      summary: Get a specie by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single specie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Specie'
+  /species/search:
+    get:
+      tags:
+        - Specie
+      summary: Search species by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching species
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpecieCollection'
+  /starships:
+    get:
+      tags:
+        - Starship
+      summary: Get all starships
+      responses:
+        '200':
+          description: A list of starships
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StarshipCollection'
+  /starships/{id}:
+    get:
+      tags:
+        - Starship
+      summary: Get a starship by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single starship
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Starship'
+  /starships/search:
+    get:
+      tags:
+        - Starship
+      summary: Search starships by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching starships
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StarshipCollection'
+  /vehicles:
+    get:
+      tags:
+        - Vehicle
+      summary: Get all vehicles
+      responses:
+        '200':
+          description: A list of vehicles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleCollection'
+  /vehicles/{id}:
+    get:
+      tags:
+        - Vehicle
+      summary: Get a vehicle by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A single vehicle
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+  /vehicles/search:
+    get:
+      tags:
+        - Vehicle
+      summary: Search vehicles by name
+      parameters:
+        - in: query
+          name: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching vehicles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehicleCollection'
+components:
+  schemas:
+    # Individual resources
+    Film:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        episode_id:
+          type: integer
+        opening_crawl:
+          type: string
+        director:
+          type: string
+        producer:
+          type: string
+        release_date:
+          type: string
+        species:
+          type: array
+        starships:
+          type: array
+        vehicles:
+          type: array
+        characters:
+          type: array
+        planets:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+        age:
+          type: string
+    Person:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        birth_year:
+          type: string
+        gender:
+          type: string
+        hair_color:
+          type: string
+        height:
+          type: string
+        mass:
+          type: string
+        skin_color:
+          type: string
+        homeworld:
+          type: array
+        films:
+          type: array
+        species:
+          type: array
+        starships:
+          type: array
+        vehicles:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+    Planet:
+      type: object
+      properties:
+        id:
+        type: integer
+        name:
+          type: string
+        diameter:
+          type: string
+        rotation_period:
+          type: string
+        orbital_period:
+          type: string
+        gravity:
+          type: string
+        population:
+          type: string
+        climate:
+          type: string
+        terrain:
+          type: string
+        surface_water:
+          type: string
+        residents:
+          type: array
+        films:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+    Specie:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        classification:
+          type: string
+        average_height:
+          type: string
+        average_lifespan:
+          type: string
+        eye_colors:
+          type: string
+        hair_colors:
+          type: string
+        skin_colors:
+          type: string
+        language:
+          type: string
+        homeworld:
+          type: string
+        people:
+          type: array
+        films:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+    Starship:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        model:
+          type: string
+        starship_class:
+          type: string
+        manufacturer:
+          type: string
+        cost_in_credits:
+          type: string
+        length:
+          type: string
+        crew:
+          type: string
+        passengers:
+          type: string
+        max_atmosphering_speed:
+          type: string
+        hyperdrive_rating:
+          type: string
+        MGLT:
+          type: string
+        cargo_capacity:
+          type: string
+        consumables:
+          type: string
+        films:
+          type: array
+        pilots:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        model:
+          type: string
+        vehicle_class:
+          type: string
+        manufacturer:
+          type: string
+        length:
+          type: string
+        cost_in_credits:
+          type: string
+        crew:
+          type: string
+        passengers:
+          type: string
+        max_atmosphering_speed:
+          type: string
+        cargo_capacity:
+          type: string
+        consumables:
+          type: string
+        films:
+          type: array
+        pilots:
+          type: array
+        url:
+          type: string
+        created:
+          type: string
+        edited:
+          type: string
+        page_url:
+          type: string
+
+    # Collections with pagination
+    PaginatedCollection:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total de itens
+        pages:
+          type: integer
+          description: Total de páginas
+        next:
+          type: string
+          nullable: true
+          description: URL da próxima página
+        previous:
+          type: string
+          nullable: true
+          description: URL da página anterior
+        current_page:
+          type: integer
+          description: Página atual
+      required:
+        - count
+        - pages
+        - current_page
+    FilmCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Film'
+    PersonCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Person'
+    PlanetCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Planet'
+    SpecieCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Specie'
+    StarshipCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Starship'
+    VehicleCollection:
+      allOf:
+        - $ref: '#/components/schemas/PaginatedCollection'
+        - type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/Vehicle'
