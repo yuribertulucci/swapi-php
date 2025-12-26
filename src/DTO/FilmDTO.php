@@ -14,6 +14,7 @@ class FilmDTO extends BaseDTO
     private array $starships;
     private array $vehicles;
     private array $characters;
+    private array $planets;
     private string $url;
     private string $created;
     private string $edited;
@@ -32,6 +33,7 @@ class FilmDTO extends BaseDTO
         $this->starships = $data['starships'] ?? [];
         $this->vehicles = $data['vehicles'] ?? [];
         $this->characters = $data['characters'] ?? [];
+        $this->planets = $data['planets'] ?? [];
         $this->url = $data['url'] ?? '';
         $this->created = $data['created'] ?? '';
         $this->edited = $data['edited'] ?? '';
@@ -55,6 +57,7 @@ class FilmDTO extends BaseDTO
             'starships' => $this->getStarships(),
             'vehicles' => $this->getVehicles(),
             'characters' => $this->getCharacters(),
+            'planets' => $this->getPlanets(),
             'url' => $this->getUrl(),
             'created' => $this->getCreated(),
             'edited' => $this->getEdited(),
@@ -165,6 +168,11 @@ class FilmDTO extends BaseDTO
     public function getAge(): string
     {
         return $this->age;
+    }
+
+    public function getPlanets()
+    {
+        return $this->planets;
     }
 
 }
