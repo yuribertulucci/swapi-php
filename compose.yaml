@@ -1,6 +1,8 @@
 services:
   app:
-    image: shinsenter/phpfpm-nginx:php7.4-alpine
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
     env_file:
       - .env
     container_name: starwars_app
