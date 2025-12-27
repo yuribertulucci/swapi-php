@@ -15,7 +15,7 @@ class Route
     /**
      * @param string $method
      * @param string $pattern
-     * @param array<string, string>|Closure $action
+     * @param array<string, string>|\Closure $action
      */
     public function __construct(string $method, string $pattern, $action)
     {
@@ -62,7 +62,7 @@ class Route
      * Creates a GET route.
      *
      * @param string $pattern
-     * @param array<string, string>|Closure $action
+     * @param array<string, string>|\Closure $action
      *
      * @return Route
      */
@@ -75,7 +75,7 @@ class Route
      * Creates a POST route.
      *
      * @param string $pattern
-     * @param array<string, string>|Closure $action
+     * @param array<string, string>|\Closure $action
      *
      * @return Route
      */
