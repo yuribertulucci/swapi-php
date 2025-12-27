@@ -22,6 +22,9 @@ if (!function_exists('request')) {
 
 
 if (!function_exists('obj2array')) {
+    /**
+     * Convert an object to an associative array, preserving property visibility.
+     */
     function obj2array(&$Instance): array
     {
         $clone = (array) $Instance;
@@ -66,10 +69,14 @@ if (! function_exists('encode')) {
     function encode($data): string
     {
         // Convert objects and arrays to string representation for debugging purposes
-        if (is_object($data)) {
-            $data = get_class($data) . ' ' . ltrim(var_export(obj2array($data), true), 'array');
-        } elseif (is_array($data)) {
-            $data = var_export($data, true);
+        if (env('DEBUG', false)) {
+            if (is_object($data)) {
+                $data = get_class($data) . ' ' . ltrim(var_export(obj2array($data), true), 'array');
+            } elseif (is_array($data)) {
+                $data = var_export($data, true);
+            } else {
+                $data = null;
+            }
         }
 
         return htmlspecialchars($data ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
