@@ -16,8 +16,8 @@ class VehicleController
         return view('vehicles.show', ['id' => $id]);
     }
 
-    public function search($query)
+    public function search(): Response
     {
-        // Logic to search for vehicles
+        return view('vehicles.search', ['query' => request()->getQuery('query', '')]);
     }
 }

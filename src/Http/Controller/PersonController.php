@@ -16,8 +16,8 @@ class PersonController
         return view('people.show', ['id' => $id]);
     }
 
-    public function search($query)
+    public function search(): Response
     {
-        // Logic to search for people
+        return view('people.search', ['query' => request()->getQuery('query', '')]);
     }
 }

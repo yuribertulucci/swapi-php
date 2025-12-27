@@ -5,7 +5,7 @@
     <form class="row w-100 justify-content-center" method="GET" action="{{ route('films.search') }}">
         <label for="search-input" class="visually-hidden">Search</label>
         <div class="input-group-append w-50 d-flex justify-content-center gap-2">
-            <input type="text" id="search-input" name="query" placeholder="Search films..." class="form-control" />
+            <input type="text" id="search-input" name="query" placeholder="Search films..." class="form-control" value="{{ request()->getQuery('query', '') }}" />
             <button id="search-button" type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
@@ -46,7 +46,7 @@
 </style>
 
 <script>
-    const apiUrl = '{{ route("api.films.index") }}' + '?page=' + '{{ request()->getQuery("page", 1) }}';
+    const apiUrl = '{{ route("api.films.index") }}' + '?page=' + '{{ request()->getQuery("page", 1) }}' + '&query=' + encodeURIComponent('{{ request()->getQuery("query", "") }}');
     $.ajax(apiUrl, {
         method: 'GET',
         dataType: 'json',

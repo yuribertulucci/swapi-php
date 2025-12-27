@@ -16,8 +16,8 @@ class FilmController
         return view('films.show', ['id' => $id]);
     }
 
-    public function search($query)
+    public function search(): Response
     {
-        // Logic to search for films
+        return view('films.search', ['query' => request()->getQuery('query', '')]);
     }
 }

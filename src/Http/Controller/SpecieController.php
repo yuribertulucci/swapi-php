@@ -16,8 +16,8 @@ class SpecieController
         return view('species.show', ['id' => $id]);
     }
 
-    public function search($query)
+    public function search(): Response
     {
-        // Logic to search for species
+        return view('species.search', ['query' => request()->getQuery('query', '')]);
     }
 }

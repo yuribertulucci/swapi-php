@@ -16,8 +16,8 @@ class PlanetController
         return view('planets.show', ['id' => $id]);
     }
 
-    public function search($query)
+    public function search(): Response
     {
-        // Logic to search for planets
+        return view('planets.search', ['query' => request()->getQuery('query', '')]);
     }
 }

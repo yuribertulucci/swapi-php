@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 <div class="d-flex text-center flex-column justify-content-center mt-4">
-    <h2 class="w-100">Characters</h2>
-    <form class="row w-100 justify-content-center" method="GET" action="{{ route('people.search') }}">
+    <h2 class="w-100">Characters search results:</h2>
+    <form class="row w-100 justify-content-center my-4" method="GET" action="{{ route('people.search') }}">
         <label for="search-input" class="visually-hidden">Search</label>
         <div class="input-group-append w-50 d-flex justify-content-center gap-2">
-            <input type="text" id="search-input" name="query" placeholder="Search characters..." class="form-control" />
+            <input type="text" id="search-input" name="query" placeholder="Search characters..." class="form-control" value="{{ request()->getQuery('query', '') }}" />
             <button id="search-button" type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
@@ -38,15 +38,9 @@
     </div>
 </div>
 
-<style>
-    .card-text {
-        font-size: 0.9rem;
-        text-align: left;
-    }
-</style>
 
 <script>
-    const apiUrl = '{{ route("api.people.index") }}' + '?page=' + '{{ request()->getQuery("page", 1) }}';
+    const apiUrl = '{{ route("api.people.search") }}' + '?page=' + '{{ request()->getQuery("page", 1) }}' + '&query=' + encodeURIComponent('{{ request()->getQuery("query", "") }}');
     $.ajax(apiUrl, {
         method: 'GET',
         dataType: 'json',
@@ -77,3 +71,4 @@
         $('#pagination').append(result);
     });
 </script>
+

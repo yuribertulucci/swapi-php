@@ -2,6 +2,13 @@
 
 <div class="d-flex text-center flex-column justify-content-center mt-4">
     <h2 class="w-100">Vehicles</h2>
+    <form class="row w-100 justify-content-center" method="GET" action="{{ route('starships.search') }}">
+        <label for="search-input" class="visually-hidden">Search</label>
+        <div class="input-group-append w-50 d-flex justify-content-center gap-2">
+            <input type="text" id="search-input" name="query" placeholder="Search starships..." class="form-control" />
+            <button id="search-button" type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
     <div class="row row-cols-3 row-gap-4 my-4 justify-content-center" id="vehicles-list">
         <span class="loader mt-5 mx-auto"></span>
         <template id="card-template">
