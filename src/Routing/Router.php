@@ -17,6 +17,13 @@ class Router
     private string $globalPrefix = '';
     private array $middlewares = [];
 
+    /**
+     * Adds middleware(s) to the current route group.
+     *
+     * @param string|array<string> $middleware
+     *
+     * @return Router
+     */
     public static function routeMiddleware($middleware): Router
     {
         $instance = self::instance();
@@ -31,6 +38,11 @@ class Router
         return $instance;
     }
 
+    /**
+     * Removes the last added middleware from the current route group.
+     *
+     * @return Router
+     */
     public static function removeLastMiddleware(): Router
     {
         $instance = self::instance();
@@ -41,7 +53,14 @@ class Router
         return $instance;
     }
 
-    public static function routePrefix($routePrefix): Router
+    /**
+     * Adds a route prefix to the current route group.
+     *
+     * @param string $routePrefix
+     *
+     * @return Router
+     */
+    public static function routePrefix(string $routePrefix): Router
     {
         $instance = self::instance();
         $instance->routePrefixes[] = trim($routePrefix, '/');
@@ -49,6 +68,11 @@ class Router
         return $instance;
     }
 
+    /**
+     * Removes the last added route prefix from the current route group.
+     *
+     * @return Router
+     */
     public static function removeLastRoutePrefix(): Router
     {
         $instance = self::instance();
@@ -59,16 +83,37 @@ class Router
         return $instance;
     }
 
+    /**
+     * Clears all route prefixes from the current route group.
+     *
+     * @return void
+     */
     public function clearRoutePrefixes(): void
     {
         $this->routePrefixes = [];
     }
 
+    /**
+     * Loads an array of routes into the router.
+     *
+     * @param array<string, array<string, Route>> $routes
+     *
+     * @return void
+     */
     public function loadRoutes(array $routes): void
     {
         $this->routes = array_merge($this->routes, $routes);
     }
 
+    /**
+     * Adds a new route to the router.
+     *
+     * @param string $method
+     * @param string $pattern
+     * @param array<string, string>|Closure $action
+     *
+     * @return Route
+     */
     public function addRoute(string $method, string $pattern, $action): Route
     {
         $currentPrefix = $this->getRoutePrefix();
@@ -88,11 +133,30 @@ class Router
         return $this->routes[$method][$pattern] = $newRoute;
     }
 
+    /**
+     * Static method to add a new route to the router.
+     * Based on `Router::addRoute()`.
+     *
+     * @see Router::addRoute()
+     *
+     * @param string $method
+     * @param string $pattern
+     * @param array<string, string>|Closure $action
+     *
+     * @return Route
+     */
     public static function addRouteStatic(string $method, string $pattern, $action): Route
     {
         return self::instance()->addRoute($method, $pattern, $action);
     }
 
+    /**
+     * Handles an incoming HTTP request and returns the appropriate response.
+     *
+     * @param Request $request
+     *
+     * @return Response|null
+     */
     public function handleRequest(Request $request): ?Response
     {
         $uri = $request->getUri();
@@ -119,12 +183,19 @@ class Router
         return response()->notFound();
     }
 
+    /**
+     * Processes a matched route, applying its middlewares and executing its action.
+     *
+     * @param Route $route
+     *
+     * @return Response|null
+     */
     public function processRoute(Route $route): ?Response
     {
         $request = Request::instance();
         $middlewares = array_merge($this->middlewares, $route->getMiddlewares());
 
-        // Criar a cadeia de middlewares
+        // Transforms to a single callable to be used in middleware chain
         $next = function () use ($route) {
             $routeDetails = $route->getDetails();
             $routeAction = $routeDetails['action'];
@@ -160,6 +231,11 @@ class Router
         return $next($request);
     }
 
+    /**
+     * Gets the current route prefix.
+     *
+     * @return string
+     */
     public function getRoutePrefix(): string
     {
         $currentPrefix = '/' . implode('/', $this->routePrefixes);
@@ -171,6 +247,13 @@ class Router
         return $currentPrefix;
     }
 
+    /**
+     * Retrieves a route by its name.
+     *
+     * @param string $name
+     *
+     * @return Route|null
+     */
     public function getRouteByName(string $name): ?Route
     {
         foreach ($this->routes as $methodRoutes) {
@@ -184,6 +267,14 @@ class Router
         return null;
     }
 
+    /**
+     * Generates a URL for a named route with optional parameters.
+     *
+     * @param string $name
+     * @param array<string, string> $params
+     *
+     * @return string|null
+     */
     public function generateUrl(string $name, array $params = []): ?string
     {
         $route = $this->getRouteByName($name);

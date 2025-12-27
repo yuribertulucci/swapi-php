@@ -12,6 +12,11 @@ class Route
     private ?array $parameters = null;
     private array $middlewares = [];
 
+    /**
+     * @param string $method
+     * @param string $pattern
+     * @param array<string, string>|Closure $action
+     */
     public function __construct(string $method, string $pattern, $action)
     {
         $this->method = $method;
@@ -19,6 +24,14 @@ class Route
         $this->action = $action;
     }
 
+    /**
+     * Defines a group of routes with shared configurations.
+     *
+     * @param string|array<string, mixed> $configs
+     * @param \Closure $routes
+     *
+     * @return void
+     */
     public static function group($configs, \Closure $routes): void
     {
         if (is_string($configs) && ! empty($configs)) {
@@ -45,29 +58,66 @@ class Route
         }
     }
 
+    /**
+     * Creates a GET route.
+     *
+     * @param string $pattern
+     * @param array<string, string>|Closure $action
+     *
+     * @return Route
+     */
     public static function get(string $pattern, $action): Route
     {
         return Router::addRouteStatic('GET', $pattern, $action);
     }
 
+    /**
+     * Creates a POST route.
+     *
+     * @param string $pattern
+     * @param array<string, string>|Closure $action
+     *
+     * @return Route
+     */
     public static function post(string $pattern, $action): Route
     {
         return Router::addRouteStatic('POST', $pattern, $action);
     }
 
-    public function name(string $name): Route
+    /**
+     * Sets the name of the route.
+     * To be used in a chain after route creation.
+     *
+     * @param string $name
+     *
+     * @return self
+     */
+    public function name(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Converts the route pattern to a regular expression and stores it inside the route's patternRegex property.
+     *
+     * @return string
+     */
     public function convertPatternToRegex(): string
     {
         $regex = preg_replace('/{[^\/]+}/', '([^/]+)', $this->pattern);
         $regex = str_replace('/', '\/', $regex);
-        return '/^' . $regex . '?$/';
+        $this->patternRegex = '/^' . $regex . '?$/';
+
+        return $this->patternRegex;
     }
 
+    /**
+     * Extracts parameters from the request URI based on the route pattern and
+     * stores them inside the route parameters property.
+     *
+     * @return void
+     */
     public function extractParams(): void
     {
         preg_match_all('/{([^\/]+)}/', $this->pattern, $paramNames);
@@ -82,6 +132,11 @@ class Route
         }
     }
 
+    /**
+     * Returns an associative array with route details.
+     *
+     * @return array<string, mixed>
+     */
     public function getDetails(): array
     {
         return [
@@ -104,6 +159,13 @@ class Route
         return $this->middlewares;
     }
 
+    /**
+     * Adds middlewares to the route.
+     *
+     * @param string|array<string> $middlewares
+     *
+     * @return self
+     */
     public function withMiddleware($middlewares): self
     {
         if (!is_array($middlewares)) {
