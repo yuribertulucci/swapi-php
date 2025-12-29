@@ -38,9 +38,9 @@ For more detailed installation instructions, please refer to the [Detailed Insta
 2. Clone this repository to your local machine.
 3. Navigate to the project directory in your terminal.
 4. Run the compose command to build and start the Docker container:
-   ```bash
-    docker compose up --build
-    ```
+```bash
+ docker compose up --build
+ ```
 5. Once the container is running, you can access the application as specified in the project documentation.
 
 ### Local Instructions
@@ -48,11 +48,11 @@ For more detailed installation instructions, please refer to the [Detailed Insta
 2. Clone this repository to your local machine.
 3. Navigate to the project directory in your terminal.
 4. Install the required dependencies using Composer:
-   ```bash
-   composer install
-   ```
+```bash
+composer install
+```
 5. Run the application using the PHP built-in server:
-   ```bash
-   php -S localhost:8000
-   ```
+```bash
+php -S localhost:8000
+```
 6. Open your web browser and go to `http://localhost:8000` to access the application.

@@ -9,9 +9,9 @@
 
 ## Env File Setup
 1. Copy the `.env.example` file to create a new `.env` file in the project root directory:
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+cp .env.example .env
+```
 2. Open the `.env` file in a text editor and configure any necessary settings, such as API keys or environment variables.
 3. Save the changes to the `.env` file.
 
@@ -38,9 +38,9 @@
 2. Clone this repository to your local machine.
 3. Navigate to the project directory in your terminal.
 4. Run the compose command to build and start the Docker container:
-   ```bash
-   docker compose up --build
-   ```
+```bash
+docker compose up --build
+```
 5. Once the container is running, you can access the application in your web browser at `http://localhost:8010` (or the port you specified in the `.env` file).
 
 ## Local Instructions
@@ -48,11 +48,11 @@
 2. Clone this repository to your local machine.
 3. Navigate to the project directory in your terminal.
 4. Install the required dependencies using Composer:
-   ```bash
-   composer install
-   ```
+```bash
+composer install
+```
 5. Run the application using the PHP built-in server:
-   ```bash
-   php -S localhost:8000
-   ```
+```bash
+php -S localhost:8000
+```
 6. Open your web browser and go to `http://localhost:8000` to access the application.
