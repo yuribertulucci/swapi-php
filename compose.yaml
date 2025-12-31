@@ -7,8 +7,6 @@ services:
       - .env
     container_name: starwars_app
     environment:
-      - APP_USER=$USER
-      - APP_GROUP=$USER
       - DOCUMENT_ROOT=public
     volumes:
       - ./:/var/www/html:delegated
